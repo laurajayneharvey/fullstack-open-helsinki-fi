@@ -1,0 +1,12 @@
+sequenceDiagram
+    Note over browser: the user creates a new note on the page <br> https://studies.cs.helsinki.fi/exampleapp/notes <br> by writing something into the text field <br> and clicking the Save button. <br><br> for this example, user input is "howdy"
+
+    participant browser
+    participant server
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa <br> (with payload { "content": "howdy", "date": "2024-03-08T15:20:50.801Z" })
+    activate server
+    server-->>browser: Response status 201 with data { "message":"note created" }
+    deactivate server
+
+    Note right of browser: The browser had already pushed the new note to the notes collection before sending the request, <br> can see it rendered without refresh
