@@ -9,24 +9,6 @@ const App = () => {
   const incrementNeutral = () => setNeutral(neutral + 1);
   const incrementBad = () => setBad(bad + 1);
 
-  const total = () => good + neutral + bad;
-
-  const average = () => {
-    if (total() == 0) {
-      return 0;
-    }
-
-    return (good - bad) / total();
-  }
-
-  const positive = () => {
-    if (total() == 0) {
-      return 0;
-    }
-
-    return (good / total()) * 100;
-  }
-
   return (
     <div>
       <h2>give feedback</h2>
@@ -34,17 +16,12 @@ const App = () => {
       <Button handleClick={() => incrementNeutral()} text="neutral" />
       <Button handleClick={() => incrementBad()} text="bad" />
 
-      <h2>statistics</h2>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total()}</p>
-      <p>average {average()}</p>
-      <p>positive {positive()} %</p>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
 
 import Button from "./components/Button.jsx"
+import Statistics from "./components/Statistics.jsx"
 
 export default App
