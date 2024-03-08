@@ -1,7 +1,9 @@
 const StatisticLine = ({ text, value, percent = false }) => {
-  return (<>
-      <p>{text} {value}{percent ? ' %': ''}</p>
-  </>)
+  return (
+  <tr>
+      <td>{text}</td> 
+      <td>{value}{percent ? ' %': ''}</td>
+  </tr>)
 }
 
 export default StatisticLine
