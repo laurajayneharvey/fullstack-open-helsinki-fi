@@ -13,6 +13,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [max, setMax] = useState(0)
   const [anecdoteVotes, setAnecdoteVotes] = useState([...anecdotes].map(x => {
     return {
       'anecdote': x,
@@ -29,14 +30,23 @@ const App = () => {
     const newVotes = [...anecdoteVotes];
     newVotes[selected].voteCount = newVotes[selected].voteCount + 1;
     setAnecdoteVotes(newVotes)
+
+    const votes = [...anecdoteVotes].map(x => x.voteCount);
+    const maxIndex = Math.max(...votes)
+    setMax(votes.indexOf(maxIndex));
   }
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <div>{anecdoteVotes[selected].anecdote}</div>
       <div>has {anecdoteVotes[selected].voteCount} votes</div>
       <button onClick={() => vote(selected)}>vote</button>
       <button onClick={() => getRandomAnecdote()}>next anecdote</button>
+
+      <h2>Anecdote with most votes</h2>
+      <div>{anecdoteVotes[max].anecdote}</div>
+      <div>has {anecdoteVotes[max].voteCount} votes</div>
     </div>
   )
 }
