@@ -27,23 +27,29 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
 
-    if (persons.find(person => person.name.toLowerCase() == newName.toLowerCase())) {
-      window.alert(`${newName} is already added to phonebook`)
-      return
-    }
+    const existingPerson = persons.find(person => person.name.toLowerCase() == newName.toLowerCase())
 
-    const person = {
-      name: newName,
-      number: newNumber
+    if (existingPerson) {
+      if (window.confirm(`${existingPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+        .update(existingPerson.id, { ...existingPerson, number: newNumber }).then(data => {
+          setPersons(persons.map(p => p.id !== existingPerson.id ? p : data))
+          setNewName('')
+          setNewNumber('')
+        })
+      }
+    } else {
+      personService
+        .create({
+          name: newName,
+          number: newNumber
+        })
+        .then(data => {
+          setPersons(persons.concat(data))
+          setNewName('')
+          setNewNumber('')
+      })
     }
-
-    personService
-      .create(person)
-      .then(data => {
-        setPersons(persons.concat(data))
-        setNewName('')
-        setNewNumber('')
-    })
   }
 
   const handleNameChange = (event) => {
@@ -60,14 +66,8 @@ const App = () => {
 
   const deletePerson = (id) => {
     const person = persons.find(p => p.id === id)
-    const confirm = window.confirm(`Delete ${person.name}?`)
-    if (confirm) {
-      deletePersonConfirmed(id)
-    }
-  }
-
-  const deletePersonConfirmed = (id) => {
-    personService
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService
       .remove(id).then(() => {
         alert("Successfully deleted the person from the server")
       })
@@ -77,6 +77,7 @@ const App = () => {
       
       // want to remove from store in either success or fail case
       setPersons(persons.filter(p => p.id !== id ))
+    }
   }
 
   return (
