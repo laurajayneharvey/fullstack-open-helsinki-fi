@@ -5,12 +5,15 @@ import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [statusMessage, setStatusMessage] = useState('')
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     personService
@@ -33,6 +36,7 @@ const App = () => {
       if (window.confirm(`${existingPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
         personService
         .update(existingPerson.id, { ...existingPerson, number: newNumber }).then(data => {
+          showStatusMessage("Successfully updated the person's number")
           setPersons(persons.map(p => p.id !== existingPerson.id ? p : data))
           setNewName('')
           setNewNumber('')
@@ -45,6 +49,7 @@ const App = () => {
           number: newNumber
         })
         .then(data => {
+          showStatusMessage("Successfully added the person")
           setPersons(persons.concat(data))
           setNewName('')
           setNewNumber('')
@@ -69,10 +74,10 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}?`)) {
       personService
       .remove(id).then(() => {
-        alert("Successfully deleted the person from the server")
+        showStatusMessage("Successfully deleted the person from the server")
       })
       .catch(() => {
-        alert("Couldn't delete the person from the server")
+        showStatusMessage("Couldn't delete the person from the server", true)
       })
       
       // want to remove from store in either success or fail case
@@ -80,9 +85,20 @@ const App = () => {
     }
   }
 
+  const showStatusMessage = (message, isError = false) => {
+    setStatusMessage(message)
+    setIsError(isError)
+    setTimeout(() => {
+      setStatusMessage('')
+      setIsError(false)
+    }, 5000)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={statusMessage} isError={isError} />
       
       <Filter search={search} handleSearchChange={handleSearchChange} />
 

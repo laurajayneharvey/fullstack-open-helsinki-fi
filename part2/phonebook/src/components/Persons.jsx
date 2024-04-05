@@ -1,8 +1,8 @@
-const Persons = (props) => (
-    props.personsFiltered.map(person => 
+const Persons = ({personsFiltered, deletePerson}) => (
+    personsFiltered.map(person => 
         <div key={person.name}>
           {person.name} {person.number}
-          <button onClick={() => props.deletePerson(person.id)}>delete</button>
+          <button onClick={() => deletePerson(person.id)}>delete</button>
         </div>
     )
   )

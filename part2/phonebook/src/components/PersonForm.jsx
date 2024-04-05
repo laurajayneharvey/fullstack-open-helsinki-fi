@@ -1,10 +1,10 @@
-const PersonForm = (props) => (
-    <form onSubmit={props.addName}>
+const PersonForm = ({addName, newName, handleNameChange, newNumber, handleNumberChange}) => (
+    <form onSubmit={addName}>
         <div>
-            name: <input value={props.newName} onChange={props.handleNameChange} />
+            name: <input value={newName} onChange={handleNameChange} />
         </div>
         <div>
-            number: <input value={props.newNumber} onChange={props.handleNumberChange} />
+            number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
             <button type="submit">add</button>
