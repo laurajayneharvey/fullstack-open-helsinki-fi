@@ -35,11 +35,16 @@ const App = () => {
     if (existingPerson) {
       if (window.confirm(`${existingPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
         personService
-        .update(existingPerson.id, { ...existingPerson, number: newNumber }).then(data => {
+        .update(existingPerson.id, { ...existingPerson, number: newNumber })
+        .then(data => {
           showStatusMessage("Successfully updated the person's number")
           setPersons(persons.map(p => p.id !== existingPerson.id ? p : data))
           setNewName('')
           setNewNumber('')
+        })
+        .catch(() => {
+          showStatusMessage(`Information of ${existingPerson.name} has already been removed from the server`, true)
+          setPersons(persons.filter(p => p.id !== existingPerson.id ))
         })
       }
     } else {
