@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
-import personService from './services/persons';
+import personService from './services/persons'
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -13,8 +12,6 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
 
-  const baseUrl = 'http://localhost:3001/persons'
-
   useEffect(() => {
     personService
       .getAll()
@@ -23,7 +20,6 @@ const App = () => {
       })
   }, [])
   
-
   const personsFiltered = search === ''
     ? persons
     : persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
@@ -62,6 +58,27 @@ const App = () => {
     setSearch(event.target.value)
   }
 
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+    const confirm = window.confirm(`Delete ${person.name}?`)
+    if (confirm) {
+      deletePersonConfirmed(id)
+    }
+  }
+
+  const deletePersonConfirmed = (id) => {
+    personService
+      .remove(id).then(() => {
+        alert("Successfully deleted the person from the server")
+      })
+      .catch(() => {
+        alert("Couldn't delete the person from the server")
+      })
+      
+      // want to remove from store in either success or fail case
+      setPersons(persons.filter(p => p.id !== id ))
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -74,7 +91,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons personsFiltered={personsFiltered} />
+      <Persons personsFiltered={personsFiltered} deletePerson={deletePerson} />
     </div>
   )
 }
