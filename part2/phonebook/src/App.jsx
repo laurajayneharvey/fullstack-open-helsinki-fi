@@ -11,9 +11,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
 
+  const baseUrl = 'http://localhost:3001/persons'
+
   useEffect(() => {
     axios
-    .get('http://localhost:3001/persons')
+    .get(baseUrl)
     .then(response => {
       setPersons(response.data)
     })
@@ -36,10 +38,14 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-  
-    setPersons(persons.concat(person))
-    setNewName('')
-    setNewNumber('')
+
+    axios.post(baseUrl, person)
+      .then(response => response.data)
+      .then(person => {
+        setPersons(persons.concat(person))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleNameChange = (event) => {
