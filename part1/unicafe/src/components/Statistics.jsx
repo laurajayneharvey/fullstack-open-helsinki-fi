@@ -1,20 +1,20 @@
 const Statistics = ({ good = 0, neutral = 0, bad = 0 }) => {
-    const all = () => good + neutral + bad;
+    const all = () => good + neutral + bad
 
     const average = () => {
       if (all() == 0) {
-        return 0;
+        return 0
       }
   
-      return (good - bad) / all();
+      return (good - bad) / all()
     }
   
     const positive = () => {
       if (all() == 0) {
-        return 0;
+        return 0
       }
   
-      return (good / all()) * 100;
+      return (good / all()) * 100
     }
 
     if (all() == 0) {
@@ -39,6 +39,6 @@ const Statistics = ({ good = 0, neutral = 0, bad = 0 }) => {
     </>)
 }
 
-import StatisticLine from "./StatisticLine";
+import StatisticLine from "./StatisticLine"
 
 export default Statistics

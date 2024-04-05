@@ -18,22 +18,22 @@ const App = () => {
     return {
       'anecdote': x,
       'voteCount': 0
-    };
+    }
   }))
 
   const getRandomAnecdote = () => {
-    const random =  Math.floor(Math.random() * anecdotes.length);
-    setSelected(random);
+    const random =  Math.floor(Math.random() * anecdotes.length)
+    setSelected(random)
   }
 
   const vote = (selected) => {
-    const newVotes = [...anecdoteVotes];
-    newVotes[selected].voteCount = newVotes[selected].voteCount + 1;
+    const newVotes = [...anecdoteVotes]
+    newVotes[selected].voteCount = newVotes[selected].voteCount + 1
     setAnecdoteVotes(newVotes)
 
-    const votes = [...anecdoteVotes].map(x => x.voteCount);
+    const votes = [...anecdoteVotes].map(x => x.voteCount)
     const maxIndex = Math.max(...votes)
-    setMax(votes.indexOf(maxIndex));
+    setMax(votes.indexOf(maxIndex))
   }
 
   return (
