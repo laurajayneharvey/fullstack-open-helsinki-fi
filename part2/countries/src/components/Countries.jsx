@@ -1,6 +1,7 @@
 const Countries = ({countriesFiltered, country}) => {
+
     if (countriesFiltered.length === 1 && country !== null) {
-      return(<div>just one {country.name.common}</div>)
+      return(<Country country={country} />)
     } else if (countriesFiltered.length > 10) {
       return(<div>Too many matches, specify another filter</div>)
     } else {
@@ -11,5 +12,7 @@ const Countries = ({countriesFiltered, country}) => {
     ))
     }
 }
+
+import Country from "./Country"
   
 export default Countries
