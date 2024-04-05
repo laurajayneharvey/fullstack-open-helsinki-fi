@@ -1,49 +1,48 @@
 import { useState, useEffect } from 'react'
 
-import personService from './services/countries'
+import countriesService from './services/countries'
 
 import Filter from './components/Filter'
-import Persons from './components/Persons'
+import Countries from './components/Countries'
 
 const App = () => {
-  const [persons, setPersons] = useState([]) 
-  const [personsFiltered, setPersonsFiltered] = useState([]) 
+  const [countries, setCountries] = useState([]) 
+  const [countriesFiltered, setCountriesFiltered] = useState([]) 
   const [search, setSearch] = useState('')
-  const [person, setPerson] = useState(null) 
+  const [country, setCountry] = useState(null) 
 
   useEffect(() => {
-    personService
+    countriesService
     .getAll()
     .then(data => {
-      setPersons(data)
-      setPersonsFiltered(data)
+      setCountries(data)
+      setCountriesFiltered(data)
     })
   }, [])
 
   useEffect(() => {
-    setPersonsFiltered(search === '' ? persons : persons.filter(person => person.name.common.toLowerCase().includes(search.toLowerCase())))
-  }, [search, persons])
+    setCountriesFiltered(search === '' ? countries : countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase())))
+  }, [search, countries])
 
   useEffect(() => {
-    if (personsFiltered.length === 1) {
-      personService
-      .getByName(personsFiltered[0].name.common)
+    if (countriesFiltered.length === 1) {
+      countriesService
+      .getByName(countriesFiltered[0].name.common)
       .then(data => {
-        setPerson(data)
+        setCountry(data)
       })
     }
-  }, [personsFiltered])
+  }, [countriesFiltered])
   
   const handleSearchChange = (event) => {
     setSearch(event.target.value)
-    //setPersonsFiltered(search === '' ? persons : persons.filter(person => person.name.common.toLowerCase().includes(search.toLowerCase())))
   }
 
   return (
     <div>
       <Filter search={search} handleSearchChange={handleSearchChange} />
 
-      <Persons personsFiltered={personsFiltered} person={person} />
+      <Countries countriesFiltered={countriesFiltered} country={country} />
     </div>
   )
 }
