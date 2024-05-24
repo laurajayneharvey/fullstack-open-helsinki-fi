@@ -42,7 +42,7 @@ const App = () => {
     <div className="wrapper">
       <Filter search={search} handleSearchChange={handleSearchChange} />
 
-      <Countries countriesFiltered={countriesFiltered} country={country} />
+      <Countries countriesFiltered={countriesFiltered} country={country} setSearch={setSearch} />
     </div>
   )
 }
