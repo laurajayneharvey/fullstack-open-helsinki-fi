@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import countriesService from './services/countries'
+import weatherService from './services/weather'
 
 import Filter from './components/Filter'
 import Countries from './components/Countries'
@@ -27,10 +28,15 @@ const App = () => {
   useEffect(() => {
     if (countriesFiltered.length === 1) {
       countriesService
-      .getByName(countriesFiltered[0].name.common)
-      .then(data => {
-        setCountry(data)
-      })
+        .getByName(countriesFiltered[0].name.common)
+        .then(country => {
+          weatherService
+            .getByCityName(country.capital, country.cca2)
+            .then(weather => {
+              country.weather = weather
+              setCountry(country)
+            })
+        })
     }
   }, [countriesFiltered])
   
@@ -42,7 +48,7 @@ const App = () => {
     <div className="wrapper">
       <Filter search={search} handleSearchChange={handleSearchChange} />
 
-      <Countries countriesFiltered={countriesFiltered} country={country} setSearch={setSearch} />
+      <Countries countriesFiltered={countriesFiltered} country={country} handleSearchChange={handleSearchChange} />
     </div>
   )
 }

@@ -7,7 +7,7 @@ const Countries = ({country}) => {
     <h2>{country.name.common}</h2>
     <div>capital {country.capital}</div>
     <div>area {country.area}</div>
-    <h3>languages:</h3>
+    <h4>languages:</h4>
     <ul>
       {
         Object.keys(country.languages).map((key) => ( 
@@ -15,12 +15,18 @@ const Countries = ({country}) => {
         ))
       }
     </ul>
+    <img src={flag} alt={flagAltText} width="200"></img>
     <div>
-      {flag ? 
+      {country.weather ?
       (
-        <img src={flag} alt={flagAltText} width="200"></img>
-      ) 
-      : (<div>no flag image found</div>)}
+      <div>
+        <h3>{`Weather in ${country.capital}`}</h3>
+        <div>{`temperature ${country.weather.main.temp} Celsius`}</div>
+        <img src={country.weather.icon} alt={country.weather.weather[0].description} width="100"></img>
+        <div>{`wind ${country.weather.wind.speed} m/s`}</div>
+      </div>)
+      :(<></>)
+      }
     </div>
   </>
   )

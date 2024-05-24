@@ -1,4 +1,4 @@
-const Countries = ({countriesFiltered, country, setSearch}) => {
+const Countries = ({countriesFiltered, country, handleSearchChange}) => {
 
     if (countriesFiltered.length === 1 && country !== null) {
       return(<Country country={country} />)
@@ -7,7 +7,7 @@ const Countries = ({countriesFiltered, country, setSearch}) => {
     } else {
       return (countriesFiltered.map(p => 
         <div key={p.name.common}>
-          {p.name.common} <button onClick={() => setSearch(p.name.common)}>show</button>
+          {p.name.common} <button value={p.name.common} onClick={handleSearchChange}>show</button>
         </div>
       ))
     }
