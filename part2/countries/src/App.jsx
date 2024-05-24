@@ -39,7 +39,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className="wrapper">
       <Filter search={search} handleSearchChange={handleSearchChange} />
 
       <Countries countriesFiltered={countriesFiltered} country={country} />
